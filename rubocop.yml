@@ -1,0 +1,153 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+
+  Include:
+    - lib/tasks/**/*.rake
+  Exclude:
+    - vendor/**/*
+    - dashboard/**/*
+    - bin/**/*
+    - tmp/**/*
+    - db/seeds.rb
+    - db/schema.rb
+    - spec/**/*_helper.rb
+    - Rakefile
+    - Gemfile
+    - Gemfile.lock
+    - Jenkinsfile
+    - config.ru
+    - app/sweepers/**/*
+
+# don't worry about
+# the order of gems
+Bundler/OrderedGems:
+  Enabled: false
+
+# allows for if(x = some_mthod())
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Style/MultilineIfModifier:
+  Exclude:
+    - config/boot.rb
+
+# turned off for now
+# until we can cleanup
+# set_* and get_* methods
+Naming/AccessorMethodName:
+  Enabled: false
+
+# don't use and/or, use &&/||
+# except when doing
+# render/redirect_to and return
+Style/AndOr:
+  Enabled: false
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+Style/MutableConstant:
+  Exclude:
+    - config/**/*
+    - lib/tasks/**/*
+    - script/**/*
+
+# since we do a lot of
+# expect{
+#   ...
+# }.to be(...)
+# we'll ignore these for specs
+# also good fo chaining method
+# call after a multiline block
+# [1,2,3].map(this) {
+#   ...
+#   ...
+# }.uniq
+Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
+
+# use double quotes around strings
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  ConsistentQuotesInMultiline: true
+
+# allows for:
+# x = foo(bar) rescue nil
+Style/RescueModifier:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+# max class length, excluding comments
+Metrics/ClassLength:
+  CountComments: false
+  Max: 500
+
+# max module length, excluding comments
+Metrics/ModuleLength:
+  CountComments: false
+  Max: 100
+
+# max block length, excluding comments
+Metrics/BlockLength:
+  CountComments: false
+  Exclude:
+    - spec/**/*
+    - lib/tasks/**/*
+    - db/**/*
+    - config/**/*
+
+# max line length
+# actually 100
+# added 20 for buffer
+# just in case sometimes
+Metrics/LineLength:
+  Max: 120
+
+# max number of parameters in method def/call
+Metrics/ParameterLists:
+  Max: 5
+
+# Score of    Means
+# 0-10        Awesome
+# 11-20       Good enough
+# 21-40       Might need refactoring
+# 41-60       Possible to justify
+# 61-100      Danger
+# 100-200     Whoop, whoop, whoop
+# 200 +       Someone please think of the children
+Metrics/AbcSize:
+  # Max: 15
+  Max: 176
+
+Metrics/PerceivedComplexity:
+  # Max 25
+  Max: 61
+
+Metrics/CyclomaticComplexity:
+  # Max: 6
+  Max: 51
+
+# method length excluding comments
+# should not be long
+# keep short and sweet
+Metrics/MethodLength:
+  CountComments: false
+  # Max: 15
+  Max: 116
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: '()'
+    '%i': '()'
+    '%w': '()'
+    '%r': '{}'
+
+Performance/Casecmp:
+  Enabled: false
+
+Style/FormatStringToken:
+  EnforcedStyle: template
